@@ -1,4 +1,5 @@
 ﻿using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
@@ -16,6 +17,7 @@ namespace Backend.Controllers
             _connectionString = configuration.GetConnectionString("DefaultConnection"); // Get your connection string
         }
 
+        [Authorize(Roles ="User, Admin")]
         [HttpGet]
         public async Task<IActionResult> GetEmployee()
         {
@@ -55,6 +57,7 @@ namespace Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeeModel employee)
         {
@@ -78,6 +81,7 @@ namespace Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
@@ -101,6 +105,7 @@ namespace Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddEmployee([FromBody] EmployeeModel employee)
         {
